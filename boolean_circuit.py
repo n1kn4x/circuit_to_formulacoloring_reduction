@@ -1,5 +1,7 @@
+import uuid
+
 class BooleanCircuit:
-    def __init__(self, value=None, left=None, right=None, op=None, parent=None):
+    def __init__(self, value=None, left=None, right=None, op=None, parent=None, name=None):
         if value in ['True', 'False']:
             self.value = value == 'True'
         else:
@@ -8,6 +10,7 @@ class BooleanCircuit:
         self.right = right
         self.op = op
         self.parent = parent
+        self.name = name or str(uuid.uuid4())  # Set the name to a unique value if None is provided
     
     def evaluate(self):
         if self.op == 'AND':
