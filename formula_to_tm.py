@@ -104,7 +104,3 @@ def formula_to_turingmachine(formula):
     if (circuit.right != None):
         add_transitions_for_circuit(tm, circuit.right)
     return tm
-
-
-
-            
