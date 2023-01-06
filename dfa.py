@@ -6,6 +6,8 @@ class DFA:
         self.accept_states = set(accept_states)
         self.current_state = start_state
         self.transitions = {}
+        assert self.start_state in self.states
+        assert self.accept_states.issubset(self.states)
 
     def add_transition(self, from_state, to_state, input_symbol):
         self.states.add(from_state)
