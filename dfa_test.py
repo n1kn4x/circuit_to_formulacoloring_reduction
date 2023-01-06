@@ -8,10 +8,10 @@ def test_dfa():
         start_state='q1',
         accept_states=['q1']
     )
-    dfa.add_transition('q1', 'a', 'q2')
-    dfa.add_transition('q1', 'b', 'q1')
-    dfa.add_transition('q2', 'a', 'q1')
-    dfa.add_transition('q2', 'b', 'q2')
+    dfa.add_transition('q1', 'q2', 'a')
+    dfa.add_transition('q1', 'q1', 'b')
+    dfa.add_transition('q2', 'q1', 'a')
+    dfa.add_transition('q2', 'q2', 'b')
 
     assert dfa.evaluate('a') == False
     assert dfa.evaluate('aa') == True
@@ -25,12 +25,12 @@ def test_dfa():
         start_state='q1',
         accept_states=['q3']
     )
-    dfa.add_transition('q1', '0', 'q2')
-    dfa.add_transition('q1', '1', 'q1')
-    dfa.add_transition('q2', '1', 'q3')
-    dfa.add_transition('q2', '0', 'q1')
-    dfa.add_transition('q3', '0', 'q1')
-    dfa.add_transition('q3', '1', 'q1')
+    dfa.add_transition('q1', 'q2', '0')
+    dfa.add_transition('q1', 'q1', '1')
+    dfa.add_transition('q2', 'q3', '1')
+    dfa.add_transition('q2', 'q1', '0')
+    dfa.add_transition('q3', 'q1', '0')
+    dfa.add_transition('q3', 'q1', '1')
 
     assert dfa.evaluate('0') == False
     assert dfa.evaluate('01') == True
