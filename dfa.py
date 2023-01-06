@@ -1,11 +1,14 @@
+import uuid
+
 class DFA:
-    def __init__(self, states, alphabet, start_state, accept_states):
+    def __init__(self, states, alphabet, start_state, accept_states, name):
         self.states = states
         self.alphabet = alphabet
         self.start_state = start_state
         self.accept_states = accept_states
         self.current_state = start_state
         self.transitions = {}
+        self.name = name or str(uuid.uuid4())
 
     def add_transition(self, from_state, input_symbol, to_state):
         self.transitions[(from_state, input_symbol)] = to_state
