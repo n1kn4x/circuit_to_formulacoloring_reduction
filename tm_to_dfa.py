@@ -34,10 +34,10 @@ def insert_immediate_states(dfa, from_state, to_state, read_value, num_symbol_re
     name_prefix = from_state + '_to_' + to_state
     dfa.add_transition(from_state, name_prefix + '_1', read_value)
     for i in range(2, num_symbol_reads):
+        from_state = name_prefix + '_%d'%(i-1)
         next_state = name_prefix + '_%d'%i
         dfa.add_transition_any_symbol(from_state, next_state)
-        from_state = next_state
-    dfa.add_transition_any_symbol(from_state, to_state)
+    dfa.add_transition_any_symbol(next_state, to_state)
 
 
 def tm_to_dfa(tm, input_size):

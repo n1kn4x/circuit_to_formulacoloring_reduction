@@ -1,5 +1,6 @@
-from turing_machine import TuringMachine
+from turing_machine import *
 from tm_to_dfa import *
+from formula_to_tm import *
 
 def test_tm_to_dfa():
     # Set up a Turing machine to recognize the language {0^n + 1^n + ' '|0 <= n >= 4}
@@ -38,25 +39,64 @@ def test_tm_to_dfa():
     tm.add_reject_state('REJECT')
     tm.add_accept_state('ACCEPT')
 
-
     # Test input strings in the language
-    assert tm.run('01 ') == True
-    dfa = tm_to_dfa(tm, 3)
-    assert dfa.evaluate('01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 ') == True
-    # TODO MORE TESTS!
-    
+    input_copies = 1 + tm.get_num_L_and_N_transitions()
+    input = '01 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
+    input = '0011 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
+    input = '000111 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
+    input = '00001111 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
+
+    input = '011 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
+    input = '0010 '
+    dfa = tm_to_dfa(tm, len(input))
+    assert dfa.evaluate(input*input_copies) == tm.run(input)
 
 
-"""
-    assert tm.run('0011 ') == True
-    assert tm.run('000111 ') == True
-    assert tm.run('00001111 ') == True
+    # Set up a boolean circuit and reduce it to a TM
+    tm = formula_to_turingmachine("NOT ((A OR B) AND C)")
+    input_len = 3
+    input_copies = 1 + tm.get_num_L_and_N_transitions()
+    dfa = tm_to_dfa(tm, input_len)
+    for x in range(2**input_len):
+        input = format(x, f'0{input_len}b')
+        try:
+            assert dfa.evaluate(input*input_copies) == tm.run(input)
+        except AssertionError:
+            print("Error for %s" % input)
 
-    # Test input strings not in the language
-    assert tm.run('1 ') == False
-    assert tm.run('10 ') == False
-    assert tm.run('1010 ') == False
-    assert tm.run('001011 ') == False
-    assert tm.run('0001110 ') == False
-    assert tm.run('00 0111 ') == False
-"""
+    # Set up a boolean circuit and reduce it to a TM
+    tm = formula_to_turingmachine("((A OR B) AND (A OR C)) OR (NOT C)")
+    input_len = 5
+    input_copies = 1 + tm.get_num_L_and_N_transitions()
+    dfa = tm_to_dfa(tm, input_len)
+    for x in range(2**input_len):
+        input = format(x, f'0{input_len}b')
+        try:
+            assert dfa.evaluate(input*input_copies) == tm.run(input)
+        except AssertionError:
+            print("Error for %s" % input)
+
+    # Set up a boolean circuit and reduce it to a TM
+    tm = formula_to_turingmachine("((A AND B) OR (A OR C)) OR NOT ((NOT C) AND (NOT (D OR E) AND (J AND D)))")
+    input_len = 9
+    input_copies = 1 + tm.get_num_L_and_N_transitions()
+    dfa = tm_to_dfa(tm, input_len)
+    for x in range(2**input_len):
+        input = format(x, f'0{input_len}b')
+        try:
+            assert dfa.evaluate(input*input_copies) == tm.run(input)
+        except AssertionError:
+            print("Error for %s" % input)
+
+#tm.draw_transition_diagram()
+#dfa.draw_transition_diagram()
