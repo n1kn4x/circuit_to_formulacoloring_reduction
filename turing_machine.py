@@ -87,8 +87,7 @@ class TuringMachine:
                 tape.move_right()
 
     def get_num_L_and_N_transitions(self):
-        return len([t for t in self.transitions.values()if (t[1] == 'L' or t[1] == 'N')])
-
+        return len([t for t in self.transitions.values() if (t[2] == 'L' or t[2] == 'N')])
 
     def draw_transition_diagram(self):
         # Create a new graph
