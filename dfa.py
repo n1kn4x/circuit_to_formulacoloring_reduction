@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from graphviz import Digraph
 
 class DFA:
     def __init__(self, states=set(), alphabet=set({'0','1'}), start_state=None, accept_states=set()):
@@ -35,41 +36,22 @@ class DFA:
             self.current_state = self.transitions[(self.current_state, i)]
         return self.current_state in self.accept_states
 
-def plot_dfa(dfa):
-    # Create the directed graph
-    G = nx.DiGraph()
+    def draw_transition_diagram(self):
+        # Create a new graph
+        graph = Digraph()
 
-    # Add the nodes
-    for state in dfa.states:
-        if (state == dfa.start_state):
-            G.add_node(state, Type='START')
-        elif (state in dfa.accept_states):
-            G.add_node(state, Type='ACCEPT')
-        else:
-            G.add_node(state, Type='NORMAL')
+        # Add states to the graph
+        for state in self.states:
+            if state in self.accept_states:
+                shape = 'doublecircle'
+            else:
+                shape = 'circle'
+            graph.node(state, shape=shape)
 
-    # Add the edges
-    for transition, to_state in dfa.transitions.items():
-        from_state, input_symbol = transition
-        G.add_edge(from_state, to_state, label=input_symbol)
+        # Add transitions to the graph
+        for (from_state, input_symbol), to_state in self.transitions.items():
+            label = f'{input_symbol}'
+            graph.edge(from_state, to_state, label=label)
 
-    # extract nodes with specific setting of the attribute
-    start_nodes = [n for (n,ty) in \
-        nx.get_node_attributes(G,'Type').items() if ty == 'START']
-    accept_nodes = [n for (n,ty) in \
-        nx.get_node_attributes(G,'Type').items() if ty == 'ACCEPT']
-    normal_nodes = [n for (n,ty) in \
-        nx.get_node_attributes(G,'Type').items() if ty == 'NORMAL']
-
-    # Draw the graph
-    pos = nx.drawing.nx_agraph.graphviz_layout(G, prog='dot')
-    nx.draw_networkx_edges(G, pos=pos)
-    nx.draw_networkx_nodes(G, pos, nodelist=start_nodes,
-        node_color='orange', node_shape='o', edgecolors='black', node_size=1000)
-    nx.draw_networkx_nodes(G, pos, nodelist=accept_nodes,
-        node_color='green', node_shape='o', edgecolors='black', node_size=1000)
-    nx.draw_networkx_nodes(G, pos, nodelist=normal_nodes,
-        node_color='grey', node_shape='o', edgecolors='black', node_size=1000)
-    nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=nx.get_edge_attributes(G, 'label'))
-    nx.draw_networkx_labels(G, pos)
-    plt.show()
+        # Render and return the graph
+        return graph.render("out/dfa")
