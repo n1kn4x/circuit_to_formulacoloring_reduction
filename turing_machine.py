@@ -1,3 +1,5 @@
+from graphviz import Digraph
+
 class Tape:
     def __init__(self, values=None, blank_symbol='0'):
         self.blank_symbol = blank_symbol
@@ -87,3 +89,60 @@ class TuringMachine:
     def get_num_L_and_N_transitions(self):
         return len([t for t in self.transitions.values()if (t[1] == 'L' or t[1] == 'N')])
 
+
+    def draw_transition_diagram(self):
+        # Create a new graph
+        graph = Digraph()
+
+        # Add states to the graph
+        for state in self.states:
+            if state in self.accept_states:
+                shape = 'doublecircle'
+            elif state in self.reject_states:
+                shape = 'circle'
+            else:
+                shape = 'circle'
+            graph.node(state, shape=shape)
+
+        # Add transitions to the graph
+        for (from_state, read_value), (to_state, write_value, direction) in self.transitions.items():
+            label = f'{read_value}/{write_value}, {direction}'
+            graph.edge(from_state, to_state, label=label)
+
+        # Render and return the graph
+        return graph.render("out/turingmachine")
+
+    def step_through_computation(self, tape):
+        # Set the initial state and tape
+        current_state = self.initial_state
+        tape = Tape(tape, blank_symbol=self.blank_symbol)
+
+        while True:
+            # Print the current state, tape value, and cursor position
+            print(f'State: {current_state}')
+            print(f'Tape: {tape.values}')
+            print(f'Cursor: {tape.cursor}')
+            print()
+
+            # Check if the current state is an accept or reject state
+            if current_state in self.accept_states:
+                print('Accepted!')
+                return True
+            if current_state in self.reject_states:
+                print('Rejected!')
+                return False
+
+            # Get the transition for the current state and tape value
+            try:
+                transition = self.transitions[(current_state, tape.read())]
+            except KeyError:
+                print("No transition defined for the current state. Returning False.")
+                return False
+
+            # Update the current state, tape value, and cursor position
+            current_state = transition[0]
+            tape.write(transition[1])
+            if transition[2] == self.LEFT:
+                tape.move_left()
+            if transition[2] == self.RIGHT:
+                tape.move_right()
