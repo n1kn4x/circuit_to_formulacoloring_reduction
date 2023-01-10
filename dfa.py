@@ -58,7 +58,7 @@ class DFA:
 
         import random
 
-    def generate_sample(self, m, n):
+    def generate_random_sample(self, m, n):
         sample = []
         for i in range(m):
             # Generate a random n-bit string
