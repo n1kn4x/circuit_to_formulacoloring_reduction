@@ -1,4 +1,4 @@
-import networkx as nx
+import random
 import matplotlib.pyplot as plt
 from graphviz import Digraph
 
@@ -55,3 +55,16 @@ class DFA:
 
         # Render and return the graph
         return graph.render("out/dfa")
+
+        import random
+
+    def generate_sample(self, m):
+        sample = []
+        for i in range(m):
+            # Generate a random n-bit string
+            n = random.randint(1, 10)  # choose a random length for the string
+            w = "".join(random.choices(["0", "1"], k=n))
+            # Check if the string is accepted by the DFA
+            b = self.evaluate(w)
+            sample.append((w, b))
+        return sample
