@@ -56,8 +56,6 @@ class DFA:
         # Render and return the graph
         return graph.render("out/dfa")
 
-        import random
-
     def generate_random_sample(self, m, n):
         sample = []
         for i in range(m):
