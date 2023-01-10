@@ -1,5 +1,4 @@
 import random
-import matplotlib.pyplot as plt
 from graphviz import Digraph
 
 class DFA:
