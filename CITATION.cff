@@ -1,0 +1,44 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Boolean circuit to formula coloring reduction
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Niklas
+    family-names: Pirnay
+    email: n.pirnay@tu-berlin.de
+    affiliation: TU Berlin
+  - given-names: Vincent
+    family-names: Ulitzsch
+    affiliation: TU Belrin
+  - given-names: Frederik
+    family-names: Wilde
+    affiliation: FU Berlin
+  - given-names: Jens
+    family-names: Eisert
+    affiliation: FU Berlin
+  - given-names: Jean-Pierre
+    family-names: Seifert
+    affiliation: TU Berlin
+identifiers:
+  - type: url
+    value: >-
+      https://github.com/n1kn4x/circuit_to_formulacoloring_reduction/releases/tag/v1.0.0
+  - type: doi
+    value: 10.5281/zenodo.7660988
+repository-code: >-
+  https://github.com/n1kn4x/circuit_to_formulacoloring_reduction
+repository-artifact: >-
+  https://github.com/n1kn4x/circuit_to_formulacoloring_reduction/releases/tag/v1.0.0
+abstract: >-
+  This repository contains the code for constructing
+  advantage-bearing formula coloring instances as described
+  in the paper: "A super-polynomial quantum advantage for
+  combinatorial optimization problems"
+  (https://arxiv.org/abs/2212.08678)
+version: 1.0.0
+date-released: '2023-02-21'
